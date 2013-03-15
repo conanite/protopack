@@ -1,0 +1,6 @@
+id: blue-widget
+type: Widget
+attributes:
+  colour:  blue
+  height:  elephant
+  density: difficult

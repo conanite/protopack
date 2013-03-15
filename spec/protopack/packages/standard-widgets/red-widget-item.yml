@@ -1,0 +1,6 @@
+id: red-widget
+type: Widget
+attributes:
+  colour:  red
+  height:  tiger
+  density: abstract

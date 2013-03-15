@@ -1,0 +1,6 @@
+id: green-widget
+type: Widget
+attributes:
+  colour:  green
+  height:  zebra
+  density: obtuse

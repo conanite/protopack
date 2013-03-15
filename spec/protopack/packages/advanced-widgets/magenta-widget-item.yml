@@ -1,0 +1,6 @@
+name: magenta-widget
+type: Widget
+attributes:
+  colour:  magenta
+  height:  hippopotamus
+  density: unavailable

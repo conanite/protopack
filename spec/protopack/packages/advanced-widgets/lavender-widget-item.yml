@@ -1,0 +1,6 @@
+name: lavender-widget
+type: Widget
+attributes:
+  colour:  lavender
+  height:  trapeze
+  density: bittersweet
