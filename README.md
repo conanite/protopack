@@ -1,9 +1,8 @@
 # Protopack
 
-Protopack knows how to load object definitions from yml files and apply them to your object
-repository. It's built to work with ActiveRecord but doesn't depend on any component of Rails.
-
-TODO: Write a gem description
+Protopack knows how to load object definitions (prototypes) from packages of yml files and apply
+them to your object repository. It's built to work seamslessly with ActiveRecord but doesn't depend
+on any component of Rails.
 
 ## Installation
 
