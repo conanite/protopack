@@ -1,5 +1,5 @@
-name: magenta-widget
-type: Widget
+name: magenta-wotzit
+type: Wot::Zit
 attributes:
   colour:  magenta
   height:  hippopotamus

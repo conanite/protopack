@@ -13,8 +13,14 @@ class Protopack::PackageItem
     attributes.name
   end
 
+  def lookup_class base, list
+    base = base.const_get list.shift
+    return base if list.empty?
+    lookup_class base, list
+  end
+
   def target_class
-    Kernel.const_get type
+    lookup_class Kernel, type.split("::")
   end
 
   def missing?

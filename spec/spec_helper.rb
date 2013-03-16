@@ -23,53 +23,5 @@ RSpec.configure do |config|
   config.order = 'random'
 end
 
-class Widget
-  @@widgets = []
+load(File.dirname(__FILE__) + '/models.rb')
 
-  def self.all
-    @@widgets
-  end
-
-  def self.destroy_all
-    @@widgets = []
-  end
-
-  def initialize attrs
-    @attrs = attrs.is_a?(Hash) ? Hashie::Mash.new(attrs) : attrs
-    @@widgets << self
-  end
-
-  def method_missing m, *args
-    @attrs.send m, *args
-  end
-
-  def update_attributes attrs
-    @attrs = attrs
-  end
-
-  def self.existence attrs
-    WidgetRepository.new attrs.colour
-  end
-end
-
-class WidgetRepository
-  def initialize name
-    @name = name
-  end
-
-  def create! attributes
-    Widget.new(attributes)
-  end
-
-  def matches
-    Widget.all.select { |w| w.colour == @name }
-  end
-
-  def empty?
-    matches.empty?
-  end
-
-  def first
-    matches.first
-  end
-end

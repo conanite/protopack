@@ -7,6 +7,7 @@ describe Protopack::Package do
   before {
     Protopack::Package.config_root = File.expand_path('../packages', __FILE__)
     Widget.destroy_all
+    Wot::Zit.destroy_all
   }
 
   it "should find all the packages" do
@@ -65,4 +66,10 @@ describe Protopack::Package do
     Widget.all[4].height.should == 'camel'
   end
 
+  it "looks up namespaced class names" do
+    p = Protopack::Package.find("advanced-widgets")
+    p.apply_missing
+
+    Wot::Zit.all.map(&:colour).should == %w{ lavender magenta }
+  end
 end
