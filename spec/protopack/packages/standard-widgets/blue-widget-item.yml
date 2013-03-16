@@ -1,5 +1,6 @@
-id: blue-widget
-type: Widget
+id:        blue-widget
+type:      Widget
+ordinal:   2
 attributes:
   colour:  blue
   height:  elephant

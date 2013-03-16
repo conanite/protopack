@@ -1,0 +1,6 @@
+id:        black-widget
+type:      Widget
+attributes:
+  colour:  black
+  height:  camel
+  density: rhetorical

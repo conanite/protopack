@@ -1,5 +1,6 @@
-id: red-widget
-type: Widget
+id:        red-widget
+type:      Widget
+ordinal:   1
 attributes:
   colour:  red
   height:  tiger

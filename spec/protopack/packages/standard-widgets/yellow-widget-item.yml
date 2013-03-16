@@ -1,0 +1,7 @@
+id:        yellow-widget
+type:      Widget
+ordinal:   99
+attributes:
+  colour:  yellow
+  height:  hyena
+  density: occasional

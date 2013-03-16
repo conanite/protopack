@@ -22,13 +22,18 @@ class Protopack::Package
   end
 
   def apply_missing
-    items.each do |item|
-      item.apply! if item.missing?
-    end
+    sorted_items.select(&:missing?).each &:apply!
   end
 
   def apply_all
-    items.each &:apply!
+    sorted_items.each &:apply!
+  end
+
+  def sorted_items
+    items.sort { |a, b|
+      a, b = a.ordinal, b.ordinal
+      a ? (b ? a <=> b : -1) : (b ? 1 : 0)
+    }
   end
 
   def self.config_root= root

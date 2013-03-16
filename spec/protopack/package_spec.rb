@@ -32,33 +32,37 @@ describe Protopack::Package do
     p = Protopack::Package.find("standard-widgets")
     p.apply_all
 
-    Widget.all.map(&:colour).should == %w{ blue green red}
+    Widget.all.map(&:colour).should == %w{ red blue yellow green black }
   end
 
-  it "should install all items from a package, overwriting existing items" do
+  it "should install all items from a package, overwriting existing items, respecting #ordinal property" do
     Widget.new :colour => "blue"
     Widget.new :colour => "green"
 
     p = Protopack::Package.find("standard-widgets")
     p.apply_all
 
-    Widget.all.map(&:colour).should == %w{ blue green red}
+    Widget.all.map(&:colour).should == %w{ blue green red yellow black }
     Widget.all[0].height.should == 'elephant'
     Widget.all[1].height.should == 'zebra'
     Widget.all[2].height.should == 'tiger'
+    Widget.all[3].height.should == 'hyena'
+    Widget.all[4].height.should == 'camel'
   end
 
   it "should install only missing items from a package, not overwriting existing items" do
-    Widget.new :colour => "blue"
-    Widget.new :colour => "green"
+    Widget.new :colour => "blue", :height => "not specified"
+    Widget.new :colour => "green", :height => "not specified"
 
     p = Protopack::Package.find("standard-widgets")
     p.apply_missing
 
-    Widget.all.map(&:colour).should == %w{ blue green red}
-    Widget.all[0].height.should == nil
-    Widget.all[1].height.should == nil
+    Widget.all.map(&:colour).should == %w{ blue green red yellow black}
+    Widget.all[0].height.should == "not specified"
+    Widget.all[1].height.should == "not specified"
     Widget.all[2].height.should == 'tiger'
+    Widget.all[3].height.should == 'hyena'
+    Widget.all[4].height.should == 'camel'
   end
 
 end

@@ -89,7 +89,9 @@ names to items, if l10n is a concern: "widget-item.fr.yml", for example.
 
 Each *-item.yml contains at least three keys: "id", "type" and "attributes". Protopack calls #constantize
 on the "type" value in order to get a reference to the target class. The "attributes" are then
-passed to your #existence method as described above.
+passed to your #existence method as described above. If you specify an "ordinal" key, it must be
+numeric, and both Package#apply_all and Package#apply_missing will apply items after sorting by
+#ordinal, putting nil ordinals last.
 
 You can add other keys that you might find useful for selecting and presenting items, for example, a
 "locale" key to show only items in the current user's locale.
