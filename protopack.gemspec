@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["conan@conandalton.net"]
   gem.description   = %q{Create objects from object definitions stored as files}
   gem.summary       = %q{Store packages of object prototypes on-disk as YML; this gem allows you scan each package for missing items and apply them to your repository.}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/conanite/protopack"
 
   gem.add_dependency             'hashie'
   gem.add_development_dependency 'rspec', '~> 2.9'
