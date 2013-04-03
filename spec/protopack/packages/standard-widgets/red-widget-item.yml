@@ -1,6 +1,7 @@
 id:        red-widget
 type:      Widget
 ordinal:   1
+region:    Asia
 attributes:
   colour:  red
   height:  tiger

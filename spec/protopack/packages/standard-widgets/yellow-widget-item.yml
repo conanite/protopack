@@ -1,6 +1,7 @@
 id:        yellow-widget
 type:      Widget
 ordinal:   99
+region:    Africa
 attributes:
   colour:  yellow
   height:  hyena

@@ -1,6 +1,7 @@
 id:        blue-widget
 type:      Widget
 ordinal:   2
+region:    Africa
 attributes:
   colour:  blue
   height:  elephant

@@ -1,5 +1,6 @@
 id:        black-widget
 type:      Widget
+region:    Asia
 attributes:
   colour:  black
   height:  camel

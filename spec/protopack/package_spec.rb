@@ -51,6 +51,18 @@ describe Protopack::Package do
     Widget.all[4].height.should == 'camel'
   end
 
+  it "should install all items from a package subject to filtering" do
+    Widget.new :colour => "blue"
+    Widget.new :colour => "green"
+
+    Protopack::Package.find("standard-widgets").apply_all { |x| x.region == "Africa" }
+
+    Widget.all.map(&:colour).should == %w{ blue green yellow }
+    Widget.all[0].height.should == 'elephant'
+    Widget.all[1].height.should == 'zebra'
+    Widget.all[2].height.should == 'hyena'
+  end
+
   it "should install only missing items from a package, not overwriting existing items" do
     Widget.new :colour => "blue", :height => "not specified"
     Widget.new :colour => "green", :height => "not specified"

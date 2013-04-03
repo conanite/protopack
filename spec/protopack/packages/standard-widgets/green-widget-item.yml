@@ -1,5 +1,6 @@
 id: green-widget
 type: Widget
+region:    Africa
 attributes:
   colour:  green
   height:  zebra
