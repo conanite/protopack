@@ -7,10 +7,11 @@ require 'protopack/version'
 Gem::Specification.new do |gem|
   gem.name          = "protopack"
   gem.version       = Protopack::VERSION
-  gem.authors       = ["conanite"]
+  gem.authors       = ["Conan Dalton"]
+  gem.license       = 'MIT'
   gem.email         = ["conan@conandalton.net"]
-  gem.description   = %q{Create objects from object definitions stored as files}
-  gem.summary       = %q{Store packages of object prototypes on-disk as YML; this gem allows you scan each package for missing items and apply them to your repository.}
+  gem.description   = %q{ Create objects from object definitions stored as files, like test fixtures, only intended for production use. }
+  gem.summary       = %q{ Store packages of object prototypes on-disk as YML; this gem allows you scan each package for missing items and apply them to your repository. }
   gem.homepage      = "https://github.com/conanite/protopack"
 
   gem.add_dependency             'hashie'
