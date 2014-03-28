@@ -82,6 +82,6 @@ describe Protopack::Package do
     p = Protopack::Package.find("advanced-widgets")
     p.apply_missing
 
-    Wot::Zit.all.map(&:colour).should == %w{ lavender magenta }
+    Wot::Zit.all.map(&:colour).sort.should == %w{ lavender magenta }
   end
 end

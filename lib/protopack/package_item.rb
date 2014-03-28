@@ -34,9 +34,9 @@ class Protopack::PackageItem
   def apply!
     factory = existence
     if factory.empty?
-      factory.create! attributes
+      factory.create! attributes.to_hash
     else
-      factory.first.update_attributes attributes
+      factory.first.update_attributes attributes.to_hash
     end
   end
 

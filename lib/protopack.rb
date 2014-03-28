@@ -1,3 +1,4 @@
+require "yaml"
 require "hashie"
 require "protopack/version"
 require "protopack/package"

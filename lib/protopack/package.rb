@@ -24,13 +24,13 @@ class Protopack::Package
   def apply_missing
     items = sorted_items.select(&:missing?)
     items = items.select { |i| yield i } if block_given?
-    items.each &:apply!
+    items.each(&:apply!)
   end
 
   def apply_all
     items = sorted_items
     items = items.select { |i| yield i } if block_given?
-    items.each &:apply!
+    items.each(&:apply!)
   end
 
   def sorted_items

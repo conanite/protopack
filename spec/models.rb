@@ -37,7 +37,7 @@ class Widget
   end
 
   def method_missing m, *args
-    @attrs.send m, *args
+    @attrs[m.to_s]
   end
 
   def update_attributes attrs
