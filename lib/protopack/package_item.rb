@@ -39,5 +39,4 @@ class Protopack::PackageItem
       factory.first.update_attributes attributes.to_hash
     end
   end
-
 end
