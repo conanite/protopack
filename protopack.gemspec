@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.homepage      = "https://github.com/conanite/protopack"
 
   gem.add_dependency             'hashie'
-  gem.add_dependency             'aduki', '~> 0.2.5', '>= 0.2.5'
+  gem.add_dependency             'aduki', '~> 0.2.6', '>= 0.2.6'
   gem.add_development_dependency 'rspec', '~> 2.9'
 
   gem.files         = `git ls-files`.split($/)
