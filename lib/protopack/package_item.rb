@@ -39,4 +39,10 @@ class Protopack::PackageItem
       factory.first.update_attributes attributes.to_hash
     end
   end
+
+  def self.load filename
+    Protopack::PackageItem.new(Hashie::Mash.new(YAML.load(File.read(filename))))
+  rescue
+    raise "error reading from file #{filename}"
+  end
 end

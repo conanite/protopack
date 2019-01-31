@@ -10,9 +10,7 @@ class Protopack::Package
   end
 
   def items
-    config.items.map { |item_file|
-      Protopack::PackageItem.new(Hashie::Mash.new(YAML.load(File.read(item_file))))
-    }
+    config.items.map { |item_file| Protopack::PackageItem.load(item_file) }
   end
 
   def item id
