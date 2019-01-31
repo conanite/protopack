@@ -11,29 +11,29 @@ describe Protopack::Package do
   }
 
   it "should find all the packages" do
-    Protopack::Package.all.map(&:name).join(" ").should == "advanced-widgets standard-widgets"
+    expect(Protopack::Package.all.map(&:name).join(" ")).to eq "advanced-widgets standard-widgets"
   end
 
   it "should find a given package" do
     p = Protopack::Package.find("standard-widgets")
-    p.name.should == "standard-widgets"
+    expect(p.name).to eq "standard-widgets"
 
-    p.title.en.should == "Standard Widgets"
-    p.title.fr.should == "Widgets standards"
+    expect(p.title.en).to eq "Standard Widgets"
+    expect(p.title.fr).to eq "Widgets standards"
 
-    p.description.en.should == "Use these widgets for everyday widgeting"
-    p.description.fr.should == "Ces widgets sont utilisables pour votre widgeting quotidien"
+    expect(p.description.en).to eq "Use these widgets for everyday widgeting"
+    expect(p.description.fr).to eq "Ces widgets sont utilisables pour votre widgeting quotidien"
 
-    p.authors.should == %w{ baz titi Z }
+    expect(p.authors).to eq %w{ baz titi Z }
 
-    p.updated.should == Date.parse("2013-03-15")
+    expect(p.updated).to eq Date.parse("2013-03-15")
   end
 
   it "should install all items from a package" do
     p = Protopack::Package.find("standard-widgets")
     p.apply_all
 
-    Widget.all.map(&:colour).should == %w{ red blue yellow green black }
+    expect(Widget.all.map(&:colour)).to eq %w{ red blue yellow black green }
   end
 
   it "should install all items from a package, overwriting existing items, respecting #ordinal property" do
@@ -43,12 +43,12 @@ describe Protopack::Package do
     p = Protopack::Package.find("standard-widgets")
     p.apply_all
 
-    Widget.all.map(&:colour).should == %w{ blue green red yellow black }
-    Widget.all[0].height.should == 'elephant'
-    Widget.all[1].height.should == 'zebra'
-    Widget.all[2].height.should == 'tiger'
-    Widget.all[3].height.should == 'hyena'
-    Widget.all[4].height.should == 'camel'
+    expect(Widget.all.map(&:colour)).to eq %w{ blue green red yellow black }
+    expect(Widget.all[0].height).to eq 'elephant'
+    expect(Widget.all[1].height).to eq 'zebra'
+    expect(Widget.all[2].height).to eq 'tiger'
+    expect(Widget.all[3].height).to eq 'hyena'
+    expect(Widget.all[4].height).to eq 'camel'
   end
 
   it "should install all items from a package subject to filtering" do
@@ -57,10 +57,10 @@ describe Protopack::Package do
 
     Protopack::Package.find("standard-widgets").apply_all { |x| x.region == "Africa" }
 
-    Widget.all.map(&:colour).should == %w{ blue green yellow }
-    Widget.all[0].height.should == 'elephant'
-    Widget.all[1].height.should == 'zebra'
-    Widget.all[2].height.should == 'hyena'
+    expect(Widget.all.map(&:colour)).to eq %w{ blue green yellow }
+    expect(Widget.all[0].height).to eq 'elephant'
+    expect(Widget.all[1].height).to eq 'zebra'
+    expect(Widget.all[2].height).to eq 'hyena'
   end
 
   it "should install only missing items from a package, not overwriting existing items" do
@@ -70,18 +70,18 @@ describe Protopack::Package do
     p = Protopack::Package.find("standard-widgets")
     p.apply_missing
 
-    Widget.all.map(&:colour).should == %w{ blue green red yellow black}
-    Widget.all[0].height.should == "not specified"
-    Widget.all[1].height.should == "not specified"
-    Widget.all[2].height.should == 'tiger'
-    Widget.all[3].height.should == 'hyena'
-    Widget.all[4].height.should == 'camel'
+    expect(Widget.all.map(&:colour)).to eq %w{ blue green red yellow black}
+    expect(Widget.all[0].height).to eq "not specified"
+    expect(Widget.all[1].height).to eq "not specified"
+    expect(Widget.all[2].height).to eq 'tiger'
+    expect(Widget.all[3].height).to eq 'hyena'
+    expect(Widget.all[4].height).to eq 'camel'
   end
 
   it "looks up namespaced class names" do
     p = Protopack::Package.find("advanced-widgets")
     p.apply_missing
 
-    Wot::Zit.all.map(&:colour).sort.should == %w{ lavender magenta }
+    expect(Wot::Zit.all.map(&:colour).sort).to eq %w{ lavender magenta }
   end
 end

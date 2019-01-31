@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency             'hashie'
   gem.add_dependency             'aduki', '~> 0.2.6', '>= 0.2.6'
-  gem.add_development_dependency 'rspec', '~> 2.9'
+  gem.add_development_dependency 'rspec'
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
