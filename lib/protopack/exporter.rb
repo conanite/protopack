@@ -15,12 +15,20 @@ module Protopack
 
     def build_association_table obj
       export_config(obj)[:associations].inject({ }) { |table, name|
-        assoc = obj.send name
-        next table if assoc.blank? || assoc.empty?
-        attrs = (assoc.respond_to?(:each)) ? array_assoc(assoc) : to_attributes(assoc)
-        table["#{name}_attributes"] = attrs
+        if name.is_a? Hash
+          build_association obj, table, name[:get], name[:set]
+        else
+          build_association obj, table, name, "#{name}_attributes"
+        end
         table
       }
+    end
+
+    def build_association obj, table, getter, setter
+      assoc = obj.send getter
+      return if assoc.blank? || assoc.empty?
+      attrs = (assoc.respond_to?(:each)) ? array_assoc(assoc) : to_attributes(assoc)
+      table[setter] = attrs
     end
 
     def to_package obj, meta={ }
