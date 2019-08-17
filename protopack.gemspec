@@ -15,8 +15,7 @@ Gem::Specification.new do |gem|
   gem.summary       = %q{ Store packages of object prototypes on-disk as YML; this gem allows you scan each package for missing items and apply them to your repository. }
   gem.homepage      = "https://github.com/conanite/protopack"
 
-  gem.add_dependency             'hashie'
-  gem.add_dependency             'aduki', '~> 0.2.7', '>= 0.2.7'
+  gem.add_dependency             'aduki', '>= 0.2.7'
   gem.add_development_dependency 'rspec'
 
   gem.files         = `git ls-files`.split($/)

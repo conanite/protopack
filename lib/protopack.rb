@@ -1,5 +1,5 @@
 require "yaml"
-require "hashie"
+require "aduki"
 require "protopack/version"
 require "protopack/package"
 require "protopack/package_item"

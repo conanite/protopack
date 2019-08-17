@@ -1,17 +1,13 @@
-class Protopack::PackageItem
-  attr_reader :config
+class Protopack::PackageItem < Aduki::Initializable
+  attr_accessor :id
+  attr_accessor :description
+  attr_accessor :locale
+  attr_accessor :default_locale
+  attr_accessor :type
+  attr_accessor :ordinal
+  attr_accessor :attributes
 
-  def method_missing m, *args
-    config.send m, *args
-  end
-
-  def initialize cfg
-    @config = (cfg.is_a?(Hashie::Mash) ? cfg : Hashie::Mash.new(cfg))
-  end
-
-  def name
-    attributes.name
-  end
+  def name ; atrtibutes[:name] ; end
 
   def lookup_class base, list
     base = base.const_get list.shift
@@ -41,7 +37,7 @@ class Protopack::PackageItem
   end
 
   def self.load filename
-    Protopack::PackageItem.new(Hashie::Mash.new(YAML.load(File.read(filename))))
+    Protopack::PackageItem.new(YAML.load(File.read(filename)))
   rescue
     raise "error reading from file #{filename}"
   end

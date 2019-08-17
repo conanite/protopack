@@ -4,7 +4,12 @@ require File.expand_path('../../spec_helper', __FILE__)
 
 describe Protopack::Package do
 
+  module HasRegion
+    attr_accessor :region
+  end
+
   before {
+    Protopack::PackageItem.send :include, HasRegion
     Protopack::Package.config_root = File.expand_path('../packages', __FILE__)
     Widget.destroy_all
     Wot::Zit.destroy_all
@@ -18,11 +23,11 @@ describe Protopack::Package do
     p = Protopack::Package.find("standard-widgets")
     expect(p.name).to eq "standard-widgets"
 
-    expect(p.title.en).to eq "Standard Widgets"
-    expect(p.title.fr).to eq "Widgets standards"
+    expect(p.title["en"]).to eq "Standard Widgets"
+    expect(p.title["fr"]).to eq "Widgets standards"
 
-    expect(p.description.en).to eq "Use these widgets for everyday widgeting"
-    expect(p.description.fr).to eq "Ces widgets sont utilisables pour votre widgeting quotidien"
+    expect(p.description["en"]).to eq "Use these widgets for everyday widgeting"
+    expect(p.description["fr"]).to eq "Ces widgets sont utilisables pour votre widgeting quotidien"
 
     expect(p.authors).to eq %w{ baz titi Z }
 

@@ -1,16 +1,14 @@
-class Protopack::Package
-  attr_reader :config
-
-  def method_missing m, *args
-    config.send m, *args
-  end
-
-  def initialize cfg
-    @config = (cfg.is_a?(Hashie::Mash) ? cfg : Hashie::Mash.new(cfg))
-  end
+class Protopack::Package < Aduki::Initializable
+  attr_accessor :name
+  attr_accessor :title
+  attr_accessor :description
+  attr_accessor :authors
+  attr_accessor :item_files
+  attr_accessor :root
+  aduki updated: Date
 
   def items
-    config.items.map { |item_file| Protopack::PackageItem.load(item_file) }
+    item_files.map { |item_file| Protopack::PackageItem.load(item_file) }
   end
 
   def item id
@@ -48,7 +46,7 @@ class Protopack::Package
 
   def self.all
     Dir.glob("#{config_root}/*/package-config.yml").map { |pkg_cfg|
-      cfg = Hashie::Mash.new(YAML.load(File.read(pkg_cfg)))
+      cfg = YAML.load(File.read(pkg_cfg))
       root = File.dirname pkg_cfg
       cfg["items"] = Dir.glob("#{root}/*item*.yml")
       cfg["root"] = root
@@ -58,8 +56,8 @@ class Protopack::Package
 
   def self.find name
     root = "#{config_root}/#{name}"
-    cfg = Hashie::Mash.new(YAML.load(File.read("#{root}/package-config.yml")))
-    cfg["items"] = Dir.glob("#{root}/*item*.yml")
+    cfg = YAML.load(File.read("#{root}/package-config.yml"))
+    cfg["item_files"] = Dir.glob("#{root}/*item*.yml")
     cfg["root"] = root
     new cfg
   end

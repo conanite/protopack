@@ -84,13 +84,15 @@ class Widget < Aduki::Initializable
   end
 
   def self.existence attrs
-    Repository.new Widget, attrs.colour
+    Repository.new Widget, attrs["colour"]
   end
 end
 
 module Wot
-  class Zit
+  class Zit < Aduki::Initializable
     @@wotzits = []
+
+    attr_accessor :colour, :height, :density, :name
 
     def self.all
       @@wotzits
@@ -100,8 +102,7 @@ module Wot
       @@wotzits = []
     end
 
-    def initialize attrs
-      @attrs = attrs.is_a?(Hash) ? Hashie::Mash.new(attrs) : attrs
+    def aduki_after_initialize
       @@wotzits << self
     end
 
@@ -113,16 +114,12 @@ module Wot
       Hash[*(names.zip(names.map { |n| send n }).flatten)]
     end
 
-    def method_missing m, *args
-      @attrs.send m, *args
-    end
-
     def update_attributes attrs
-      @attrs = attrs
+      aduki_apply_attributes attrs
     end
 
     def self.existence attrs
-      Repository.new Wot::Zit, attrs.colour
+      Repository.new Wot::Zit, attrs["colour"]
     end
   end
 end
