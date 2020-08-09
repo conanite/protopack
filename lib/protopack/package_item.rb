@@ -9,7 +9,7 @@ class Protopack::PackageItem < Aduki::Initializable
   attr_accessor :resources
   attr_accessor :protopack_filename
 
-  def name ; atrtibutes[:name] ; end
+  def name ; attributes[:name] || attributes["name"] ; end
 
   def lookup_class base, list
     base = base.const_get list.shift

@@ -55,8 +55,12 @@ describe Protopack::Package do
     expect(Widget.all[3].height).to eq 'hyena'
     expect(Widget.all[4].height).to eq 'camel'
 
+    green = Widget.all[1]
+    expect(green.name).to eq "The green widget for obtuse African zebras"
+
     black = Widget.all[4]
     black_desc = "<html><p>this is what a black widget looks like</p></html>"
+    expect(black.name).to be_nil
     expect(black.description).to eq black_desc
   end
 

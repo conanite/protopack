@@ -2,6 +2,7 @@ id: green-widget
 type: Widget
 region:    Africa
 attributes:
+  name:    The green widget for obtuse African zebras
   colour:  green
   height:  zebra
   density: obtuse
