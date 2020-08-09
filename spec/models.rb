@@ -49,7 +49,7 @@ end
 class Widget < Aduki::Initializable
   @@widgets = []
 
-  attr_accessor :wots, :colour, :height, :density, :name
+  attr_accessor :wots, :colour, :height, :density, :name, :description
 
   def self.all
     @@widgets

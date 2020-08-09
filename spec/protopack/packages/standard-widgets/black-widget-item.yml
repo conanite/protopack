@@ -5,3 +5,5 @@ attributes:
   colour:  black
   height:  camel
   density: rhetorical
+resources:
+  description: black-description.html

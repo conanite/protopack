@@ -54,6 +54,10 @@ describe Protopack::Package do
     expect(Widget.all[2].height).to eq 'tiger'
     expect(Widget.all[3].height).to eq 'hyena'
     expect(Widget.all[4].height).to eq 'camel'
+
+    black = Widget.all[4]
+    black_desc = "<html><p>this is what a black widget looks like</p></html>"
+    expect(black.description).to eq black_desc
   end
 
   it "should install all items from a package subject to filtering" do
