@@ -3,7 +3,8 @@ module Protopack
     def maybe_name_methods    ; %i{ export_name full_name presentation_name name }                         ; end
     def name_method obj       ; maybe_name_methods.detect { |m| obj.respond_to?(m) && obj.send(m) }        ; end
     def array_assoc list      ; list.map { |item| to_attributes item }                                     ; end
-    def clean_yaml hsh        ; StyledYAML.dump(clean_attrs hsh)                                           ; end
+    # def clean_yaml hsh        ; StyledYAML.dump(clean_attrs hsh)                                           ; end
+    def clean_yaml hsh        ; YAML.dump(clean_attrs hsh)                                           ; end
     def no_name? obj_id       ; raise "no name for object: #{obj_id.inspect}" if obj_id.blank?             ; end
     def default_export_config ; { fields: [], associations: [] }                                           ; end
     def export_config     obj ; default_export_config.merge obj.protopack_export_config                    ; end
