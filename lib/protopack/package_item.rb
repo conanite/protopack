@@ -38,10 +38,11 @@ class Protopack::PackageItem < Aduki::Initializable
 
   def apply!
     factory = existence
+    a       = load_resources(attributes.to_hash)
     if factory.empty?
-      factory.create! load_resources(attributes.to_hash)
+      factory.create! a
     else
-      factory.first.update_attributes attributes.to_hash
+      factory.first.update_attributes a
     end
   end
 
