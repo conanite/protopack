@@ -54,6 +54,19 @@ class Protopack::Package < Aduki::Initializable
     }
   end
 
+  def self.update_repositories path, list
+    list.each { |url|
+      name   = url.split(/\//).last.gsub(/\.git$/, '')
+      repo   = File.join(path, name)
+      exists = File.exists? repo
+      if exists
+        `cd #{repo} ; git pull ; git checkout main`
+      else
+        `cd #{path} ; git clone #{url} ; cd #{name} ; git checkout main`
+      end
+    }
+  end
+
   def self.find name
     root = "#{config_root}/#{name}"
     cfg = YAML.load(File.read("#{root}/package-config.yml"))
