@@ -64,7 +64,13 @@ class Widget < Aduki::Initializable
   end
 
   def protopack_export_config
-    { fields: [:colour, :height, :density, :name ], associations: [{ get: :mywots, set: :newwots }]}
+    { fields:        [:colour, :height, :density, :name ],
+      associations:  [{ get: :mywots, set: :newwots }],
+      resources:     %i{ description } }
+  end
+
+  def resource_extension_for field
+    :html
   end
 
   def slice *names
