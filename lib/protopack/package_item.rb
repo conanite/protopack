@@ -30,6 +30,8 @@ class Protopack::PackageItem < Aduki::Initializable
   end
 
   def load_resources hsh, d = File.dirname(protopack_filename)
+    resource_dir = File.join(d, "resources")
+    d = File.exist?(resource_dir) ? resource_dir : d
     (resources || {}).inject(hsh) { |hsh, (k, v)|
       hsh[k] = File.read(File.join d, v)
       hsh
@@ -47,7 +49,8 @@ class Protopack::PackageItem < Aduki::Initializable
   end
 
   def self.load filename
-    Protopack::PackageItem.new(YAML.load(File.read(filename)).merge(protopack_filename: filename))
+    id = File.basename filename, ".yml"
+    Protopack::PackageItem.new(YAML.load(File.read filename).merge(id: id, protopack_filename: filename))
   rescue
     raise "error reading from file #{filename}"
   end
