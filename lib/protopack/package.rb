@@ -75,7 +75,13 @@ class Protopack::Package < Aduki::Initializable
   def self.find name
     root = "#{config_root}/#{name}"
     cfg = YAML.load(File.read("#{root}/package-config.yml"))
-    cfg["item_files"] = Dir.glob("#{root}/*item*.yml")
+    content_dir = File.join root, "content"
+    if File.exist?(content_dir)
+      cfg["item_files"] = Dir.glob("#{content_dir}/*.yml")
+      puts cfg["item_files"]
+    else
+      cfg["item_files"] = Dir.glob("#{root}/*item*.yml")
+    end
     cfg["root"] = root
     new cfg
   end
