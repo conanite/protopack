@@ -35,6 +35,10 @@ module Protopack
       table[setter] = attrs
     end
 
+    def resource_file_name obj, id, res
+      "#{id}-#{res}.#{obj.resource_extension_for(res)}"
+    end
+
     def to_zip obj, meta={}
       obj_name = obj.send(name_method obj)
       obj_id   = Minislug.convert_to_slug obj_name.downcase
@@ -45,24 +49,33 @@ module Protopack
 
       export_config(obj)[:resources].each { |res|
         v = obj.send res
-        h["resources/#{obj_id}-#{res}.#{obj.resource_extension_for(res)}"] = v.force_encoding("UTF-8") unless v.blank?
+        h["resources/#{resource_file_name obj, obj_id, res}"] = v.force_encoding("UTF-8") unless v.blank?
       }
 
       Zip::OutputStream.write_buffer { |z| h.each { |k, v| z.put_next_entry(k) ; z.print v } }.tap(&:rewind).read
     end
 
     def to_package obj, meta={ }
-      obj_name        = obj.send(name_method obj)
-      obj_id          = obj_name.to_s.gsub(/_/, '-')
+      obj_name = obj.send(name_method obj)
+      obj_id   = Minislug.convert_to_slug obj_name.downcase
 
       no_name? obj_id
 
+      resh = {}
+      export_config(obj)[:resources].each { |res|
+        v = obj.send res
+        resh[res.to_s] = resource_file_name(obj, obj_id, res)
+      }
+
       hsh = {
-        id:          obj_id,
         description: obj_name,
         type:        obj.class.name,
         attributes:  to_attributes(obj),
       }.deep_merge(meta).recursively_stringify_keys!
+
+
+      hsh["resources"] = resh unless resh.empty?
+      hsh
     end
   end
 end

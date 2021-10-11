@@ -24,7 +24,6 @@ DESC
     hsh = exporter.to_package(w)
     expected = <<YML.strip
 ---
-id: Park Lodge Café
 description: Park Lodge Café
 type: Widget
 attributes:
@@ -39,6 +38,8 @@ attributes:
   - colour: 51
     height: 52
     density: 53
+resources:
+  description: park-lodge-cafe-description.html
 YML
 
     expect(exporter.clean_yaml(hsh).strip).to eq expected
@@ -69,7 +70,6 @@ DESC
 
     expect(h["park-lodge-cafe.yml"]).to eq <<CFG
 ---
-id: Park Lodge Café
 description: Park Lodge Café
 type: Widget
 attributes:
@@ -84,6 +84,8 @@ attributes:
   - colour: 51
     height: 52
     density: 53
+resources:
+  description: park-lodge-cafe-description.html
 CFG
 
     expect(h["resources/park-lodge-cafe-description.html"]).to eq <<DESC
