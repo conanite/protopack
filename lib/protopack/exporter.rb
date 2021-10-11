@@ -62,7 +62,7 @@ module Protopack
       no_name? obj_id
 
       resh = {}
-      export_config(obj)[:resources].each { |res|
+      (export_config(obj)[:resources] || []).each { |res|
         v = obj.send res
         resh[res.to_s] = resource_file_name(obj, obj_id, res)
       }
