@@ -78,7 +78,6 @@ class Protopack::Package < Aduki::Initializable
     content_dir = File.join root, "content"
     if File.exist?(content_dir)
       cfg["item_files"] = Dir.glob("#{content_dir}/*.yml")
-      puts cfg["item_files"]
     else
       cfg["item_files"] = Dir.glob("#{root}/*item*.yml")
     end
