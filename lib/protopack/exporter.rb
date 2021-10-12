@@ -47,7 +47,7 @@ module Protopack
         "#{obj_id}.yml" => to_yaml(obj, meta).force_encoding("UTF-8")
       }
 
-      export_config(obj)[:resources].each { |res|
+      (export_config(obj)[:resources] || []).each { |res|
         v = obj.send res
         h["resources/#{resource_file_name obj, obj_id, res}"] = v.force_encoding("UTF-8") unless v.blank?
       }
