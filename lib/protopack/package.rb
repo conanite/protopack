@@ -5,7 +5,7 @@ class Protopack::Package < Aduki::Initializable
   attr_accessor :authors
   attr_accessor :item_files
   attr_accessor :root
-  aduki updated: Date
+  aduki updated: Date, depends: Protopack::Depends
 
   def items
     item_files.map { |item_file| Protopack::PackageItem.load(item_file) }
@@ -54,7 +54,10 @@ class Protopack::Package < Aduki::Initializable
       cfg["item_files"] = Dir.glob("#{root}/*item*.yml")
     end
     cfg["root"] = root
-    new cfg
+    cfg["depends"] ||= Protopack::Depends.new
+    pkg = new cfg
+    pkg.depends.package = pkg
+    pkg
   end
 
   def self.all
