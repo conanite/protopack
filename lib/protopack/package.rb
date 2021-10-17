@@ -44,19 +44,27 @@ class Protopack::Package < Aduki::Initializable
     @@config_root
   end
 
+  def self.load_package root
+    return unless File.exist? "#{root}/package-config.yml"
+    cfg = YAML.load(File.read("#{root}/package-config.yml"))
+    content_dir = File.join root, "content"
+    if File.exist?(content_dir)
+      cfg["item_files"] = Dir.glob("#{content_dir}/*.yml")
+    else
+      cfg["item_files"] = Dir.glob("#{root}/*item*.yml")
+    end
+    cfg["root"] = root
+    new cfg
+  end
+
   def self.all
-    Dir.glob("#{config_root}/*/package-config.yml").map { |pkg_cfg|
-      cfg = YAML.load(File.read(pkg_cfg))
-      root = File.dirname pkg_cfg
-      content_dir = File.join root, "content"
-      if File.exist?(content_dir)
-        cfg["item_files"] = Dir.glob("#{content_dir}/*.yml")
-      else
-        cfg["item_files"] = Dir.glob("#{root}/*item*.yml")
-      end
-      cfg["root"] = root
-      new cfg
-    }
+    Dir.glob("#{config_root}/*").map { |root|
+      load_package root
+    }.compact
+  end
+
+  def self.find name
+    load_package "#{config_root}/#{name}"
   end
 
   def self.update_repositories path, list
@@ -70,18 +78,5 @@ class Protopack::Package < Aduki::Initializable
         `cd #{path} ; git clone #{url} ; cd #{name} ; git checkout main`
       end
     }
-  end
-
-  def self.find name
-    root = "#{config_root}/#{name}"
-    cfg = YAML.load(File.read("#{root}/package-config.yml"))
-    content_dir = File.join root, "content"
-    if File.exist?(content_dir)
-      cfg["item_files"] = Dir.glob("#{content_dir}/*.yml")
-    else
-      cfg["item_files"] = Dir.glob("#{root}/*item*.yml")
-    end
-    cfg["root"] = root
-    new cfg
   end
 end
