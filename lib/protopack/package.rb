@@ -36,6 +36,14 @@ class Protopack::Package < Aduki::Initializable
     }
   end
 
+  def self.config= cfg
+    @@config = cfg
+  end
+
+  def self.config
+    @@config
+  end
+
   def self.config_root= root
     @@config_root = root
   end
@@ -60,14 +68,16 @@ class Protopack::Package < Aduki::Initializable
   end
 
   def self.update_repositories path, list
-    list.each { |url|
-      name   = url.split(/\//).last.gsub(/\.git$/, '')
+    list.each { |info|
+      name   = info["name"]
+      remote = info["repo"]
       repo   = File.join(path, name)
       exists = File.exists? repo
+
       if exists
-        `cd #{repo} ; git pull ; git checkout main`
+        `cd #{repo} ; git pull ; git checkout master`
       else
-        `cd #{path} ; git clone #{url} ; cd #{name} ; git checkout main`
+        `cd #{path} ; git clone #{remote} ; cd #{name} ; git checkout master`
       end
     }
   end
