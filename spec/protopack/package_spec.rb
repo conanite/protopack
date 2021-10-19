@@ -8,19 +8,20 @@ describe Protopack::Package do
     attr_accessor :region
   end
 
+  let(:config) { Protopack::Config.new root: File.expand_path('../packages', __FILE__) }
+
   before {
     Protopack::PackageItem.send :include, HasRegion
-    Protopack::Package.config_root = File.expand_path('../packages', __FILE__)
     Widget.destroy_all
     Wot::Zit.destroy_all
   }
 
   it "should find all the packages" do
-    expect(Protopack::Package.all.map(&:name).join(" ")).to eq "advanced-widgets standard-widgets"
+    expect(config.all.map(&:name).join(" ")).to eq "advanced-widgets standard-widgets"
   end
 
   it "should find a given package" do
-    p = Protopack::Package.find("standard-widgets")
+    p = config.find("standard-widgets")
     expect(p.name).to eq "standard-widgets"
 
     expect(p.title["en"]).to eq "Standard Widgets"
@@ -35,7 +36,7 @@ describe Protopack::Package do
   end
 
   it "should install all items from a package" do
-    p = Protopack::Package.find("standard-widgets")
+    p = config.find("standard-widgets")
     p.apply_all
 
     expect(Widget.all.map(&:colour)).to eq %w{ red blue yellow black green }
@@ -45,7 +46,7 @@ describe Protopack::Package do
     Widget.new :colour => "blue"
     Widget.new :colour => "green"
 
-    p = Protopack::Package.find("standard-widgets")
+    p = config.find("standard-widgets")
     p.apply_all
 
     expect(Widget.all.map(&:colour)).to eq %w{ blue green red yellow black }
@@ -68,7 +69,7 @@ describe Protopack::Package do
     Widget.new :colour => "blue"
     Widget.new :colour => "green"
 
-    Protopack::Package.find("standard-widgets").apply_all { |x| x.region == "Africa" }
+    config.find("standard-widgets").apply_all { |x| x.region == "Africa" }
 
     expect(Widget.all.map(&:colour)).to eq %w{ blue green yellow }
     expect(Widget.all[0].height).to eq 'elephant'
@@ -80,7 +81,7 @@ describe Protopack::Package do
     Widget.new :colour => "blue", :height => "not specified"
     Widget.new :colour => "green", :height => "not specified"
 
-    p = Protopack::Package.find("standard-widgets")
+    p = config.find("standard-widgets")
     p.apply_missing
 
     expect(Widget.all.map(&:colour)).to eq %w{ blue green red yellow black}
@@ -92,7 +93,7 @@ describe Protopack::Package do
   end
 
   it "looks up namespaced class names" do
-    p = Protopack::Package.find("advanced-widgets")
+    p = config.find("advanced-widgets")
     p.apply_missing
 
     expect(Wot::Zit.all.map(&:colour).sort).to eq %w{ lavender magenta }

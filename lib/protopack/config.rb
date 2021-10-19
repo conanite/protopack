@@ -13,7 +13,7 @@ class Protopack::Config < Aduki::Initializable
     end
     cfg["root"] = base
     cfg["depends"] ||= Protopack::Depends.new
-    pkg = new cfg
+    pkg = Protopack::Package.new cfg
     pkg.depends.package = pkg
     pkg
   end
@@ -23,7 +23,7 @@ class Protopack::Config < Aduki::Initializable
   end
 
   def find name
-    load_package "#{config_root}/#{name}"
+    load_package "#{root}/#{name}"
   end
 
   def update_repositories logger=nil
