@@ -78,7 +78,9 @@ class Protopack::Package < Aduki::Initializable
     load_package "#{config_root}/#{name}"
   end
 
-  def self.update_repositories path, list
+  def self.update_repositories path, list, logger=nil
+    logger ||= Logger.new($stdout)
+
     list.each { |info|
       name   = info["name"]
       remote = info["repo"]
@@ -86,8 +88,10 @@ class Protopack::Package < Aduki::Initializable
       exists = File.exists? repo
 
       if exists
+        logger.info "repo exists : #{repo} : pull+checkout in #{repo}"
         `cd #{repo} ; git pull ; git checkout master`
       else
+        logger.info "new repo : #{repo} : cloning under #{path}"
         `cd #{path} ; git clone #{remote} ; cd #{name} ; git checkout master`
       end
     }
