@@ -44,7 +44,7 @@ class Protopack::PackageItem < Aduki::Initializable
     if factory.empty?
       factory.create! a
     else
-      factory.first.update_attributes a
+      factory.first.update a
     end
   end
 

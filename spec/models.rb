@@ -85,7 +85,7 @@ class Widget < Aduki::Initializable
     self.wots = wots_attrs.map { |a| Wot::Zit.new a }
   end
 
-  def update_attributes attrs
+  def update attrs
     aduki_apply_attributes attrs
   end
 
@@ -120,7 +120,7 @@ module Wot
       Hash[*(names.zip(names.map { |n| send n }).flatten)]
     end
 
-    def update_attributes attrs
+    def update attrs
       aduki_apply_attributes attrs
     end
 
