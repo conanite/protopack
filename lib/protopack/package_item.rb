@@ -46,6 +46,8 @@ class Protopack::PackageItem < Aduki::Initializable
     else
       factory.first.update a
     end
+  rescue
+    raise "installing #{protopack_filename}"
   end
 
   def self.load filename

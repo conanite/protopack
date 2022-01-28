@@ -21,12 +21,16 @@ class Protopack::Package < Aduki::Initializable
     items = sorted_items.select(&:missing?)
     items = items.select { |i| yield i } if block_given?
     items.each(&:apply!)
+  rescue
+    raise "installing missing from package #{name}"
   end
 
   def apply_all
     items = sorted_items
     items = items.select { |i| yield i } if block_given?
     items.each(&:apply!)
+  rescue
+    raise "installing all from package #{name}"
   end
 
   def sorted_items
