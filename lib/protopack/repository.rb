@@ -15,4 +15,16 @@ class Protopack::Repository < Aduki::Initializable
       `cd #{path} ; git clone #{repo} ; cd #{name} ; git checkout master`
     end
   end
+
+  def status path, logger
+    local  = File.join(path, name)
+    exists = File.exists? local
+
+    if exists
+      logger.info "repo exists : #{local}"
+      `cd #{local} ; git status --porcelain`
+    else
+      logger.info "***** no such repo : #{local} *****"
+    end
+  end
 end

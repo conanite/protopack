@@ -30,4 +30,9 @@ class Protopack::Config < Aduki::Initializable
     logger ||= Logger.new($stdout)
     repositories.each { |repo| repo.update(root, logger) }
   end
+
+  def check_repositories logger=nil
+    logger ||= Logger.new($stdout)
+    repositories.each { |repo| repo.status(root, logger) }
+  end
 end
