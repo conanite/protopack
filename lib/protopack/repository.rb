@@ -7,13 +7,14 @@ class Protopack::Repository < Aduki::Initializable
     local  = File.join(path, name)
     exists = File.exists? local
 
-    if exists
-      logger.info "repo exists : #{local} : pull+checkout in #{local}"
-      `cd #{local} ; git pull ; git checkout master`
+    cmd = if exists
+      "cd #{local} ; git pull ; git checkout master"
     else
-      logger.info "new repo : #{local} : cloning under #{path}"
-      `cd #{path} ; git clone #{repo} ; cd #{name} ; git checkout master`
+      "cd #{path} ; git clone #{repo} ; cd #{name} ; git checkout master"
     end
+
+    logger.info cmd
+    logger.info `#{cmd}`
   end
 
   def status path, logger
@@ -22,7 +23,7 @@ class Protopack::Repository < Aduki::Initializable
 
     if exists
       logger.info "repo exists : #{local}"
-      `cd #{local} ; git status --porcelain`
+      logger.info `cd #{local} ; git status --porcelain`
     else
       logger.info "***** no such repo : #{local} *****"
     end
