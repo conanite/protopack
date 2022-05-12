@@ -23,7 +23,7 @@ class Protopack::Config < Aduki::Initializable
   end
 
   def find name
-    load_package "#{root}/#{name}"
+    load_package("#{root}/#{name}") || (raise "unknown package #{name.inspect}")
   end
 
   def find! name
