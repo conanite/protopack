@@ -26,6 +26,10 @@ class Protopack::Config < Aduki::Initializable
     load_package "#{root}/#{name}"
   end
 
+  def find! name
+    find(name) || raise "Unknown package #{name.inspect} under #{root.inspect}"
+  end
+
   def update_repositories logger=nil
     logger ||= Logger.new($stdout)
     repositories.each { |repo| repo.update(root, logger) }
