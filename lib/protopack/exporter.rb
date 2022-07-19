@@ -75,6 +75,7 @@ module Protopack
 
 
       hsh["resources"] = resh unless resh.empty?
+      obj.protopack_customise_export(hsh) if obj.respond_to?(:protopack_customise_export)
       hsh
     end
   end
