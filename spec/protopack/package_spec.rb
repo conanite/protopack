@@ -36,10 +36,10 @@ describe Protopack::Package do
   end
 
   it "should install all items from a package" do
-    p = config.find("standard-widgets")
-    p.apply_all
+    pkg = config.find("standard-widgets")
+    pkg.apply_all
 
-    expect(Widget.all.map(&:colour)).to eq %w{ red blue yellow black green }
+    expect(Widget.all.map(&:colour).sort).to eq %w{ black blue green red yellow }
   end
 
   it "should install all items from a package, overwriting existing items, respecting #ordinal property" do
@@ -49,17 +49,18 @@ describe Protopack::Package do
     p = config.find("standard-widgets")
     p.apply_all
 
-    expect(Widget.all.map(&:colour)).to eq %w{ blue green red yellow black }
-    expect(Widget.all[0].height).to eq 'elephant'
-    expect(Widget.all[1].height).to eq 'zebra'
-    expect(Widget.all[2].height).to eq 'tiger'
-    expect(Widget.all[3].height).to eq 'hyena'
-    expect(Widget.all[4].height).to eq 'camel'
+    widgets = Widget.all.sort_by &:colour
+    expect(widgets.map(&:colour)).to eq %w{ black blue green red yellow }
+    expect(widgets[0].height).to eq 'camel'
+    expect(widgets[1].height).to eq 'elephant'
+    expect(widgets[2].height).to eq 'zebra'
+    expect(widgets[3].height).to eq 'tiger'
+    expect(widgets[4].height).to eq 'hyena'
 
-    green = Widget.all[1]
+    green = widgets[2]
     expect(green.name).to eq "The green widget for obtuse African zebras"
 
-    black = Widget.all[4]
+    black = widgets[0]
     black_desc = "<html><p>this is what a black widget looks like</p></html>"
     expect(black.name).to be_nil
     expect(black.description).to eq black_desc
@@ -71,7 +72,7 @@ describe Protopack::Package do
 
     config.find("standard-widgets").apply_all { |x| x.region == "Africa" }
 
-    expect(Widget.all.map(&:colour)).to eq %w{ blue green yellow }
+    expect(Widget.all.map(&:colour).sort).to eq %w{ blue green yellow }
     expect(Widget.all[0].height).to eq 'elephant'
     expect(Widget.all[1].height).to eq 'zebra'
     expect(Widget.all[2].height).to eq 'hyena'
@@ -84,12 +85,13 @@ describe Protopack::Package do
     p = config.find("standard-widgets")
     p.apply_missing
 
-    expect(Widget.all.map(&:colour)).to eq %w{ blue green red yellow black}
-    expect(Widget.all[0].height).to eq "not specified"
-    expect(Widget.all[1].height).to eq "not specified"
-    expect(Widget.all[2].height).to eq 'tiger'
-    expect(Widget.all[3].height).to eq 'hyena'
-    expect(Widget.all[4].height).to eq 'camel'
+    widgets = Widget.all.sort_by &:colour
+    expect(widgets.map(&:colour)).to eq %w{ black blue green red yellow }
+    expect(widgets[0].height).to eq "camel"
+    expect(widgets[1].height).to eq "not specified"
+    expect(widgets[2].height).to eq 'not specified'
+    expect(widgets[3].height).to eq 'tiger'
+    expect(widgets[4].height).to eq 'hyena'
   end
 
   it "looks up namespaced class names" do

@@ -40,6 +40,16 @@ module Protopack
     end
 
     def to_zip obj, meta={}
+      Zip::OutputStream.write_buffer { |z|
+        if obj.respond_to?(:each)
+          array_to_zip obj, z, meta
+        else
+          obj_to_zip obj, z, meta
+        end
+      }.tap(&:rewind).read
+    end
+
+    def obj_to_zip obj, zip, meta={}
       obj_name = obj.send(name_method obj)
       obj_id   = Minislug.convert_to_slug obj_name.downcase
 
@@ -52,7 +62,11 @@ module Protopack
         h["resources/#{resource_file_name obj, obj_id, res}"] = v.force_encoding("UTF-8") unless v.blank?
       }
 
-      Zip::OutputStream.write_buffer { |z| h.each { |k, v| z.put_next_entry(k) ; z.print v } }.tap(&:rewind).read
+      h.each { |k, v| zip.put_next_entry(k) ; zip.print v }
+    end
+
+    def array_to_zip objs, zip, meta={}
+      objs.each { |o| obj_to_zip o, zip, meta }
     end
 
     def to_package obj, meta={ }
@@ -72,7 +86,6 @@ module Protopack
         type:        obj.class.name,
         attributes:  to_attributes(obj),
       }.deep_merge(meta).recursively_stringify_keys!
-
 
       hsh["resources"] = resh unless resh.empty?
       obj.protopack_customise_export(hsh) if obj.respond_to?(:protopack_customise_export)

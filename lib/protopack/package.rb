@@ -35,8 +35,8 @@ class Protopack::Package < Aduki::Initializable
 
   def sorted_items
     items.sort { |a, b|
-      a, b = a.ordinal, b.ordinal
-      a ? (b ? a <=> b : -1) : (b ? 1 : 0)
+      l, r = (a.ordinal || 0), (b.ordinal || 0)
+      [l, a.id.to_s] <=> [r, b.id.to_s]
     }
   end
 end

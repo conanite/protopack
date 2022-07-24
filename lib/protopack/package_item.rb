@@ -8,6 +8,7 @@ class Protopack::PackageItem < Aduki::Initializable
   attr_accessor :attributes
   attr_accessor :resources
   attr_accessor :protopack_filename
+  aduki depends: Protopack::Depends
 
   def name ; attributes[:name] || attributes["name"] ; end
 
@@ -27,6 +28,10 @@ class Protopack::PackageItem < Aduki::Initializable
 
   def existence
     target_class.existence attributes
+  end
+
+  def installed?
+    target_class.installed?
   end
 
   def load_resources hsh, d = File.dirname(protopack_filename)
