@@ -57,7 +57,7 @@ class Protopack::PackageItem < Aduki::Initializable
 
   def self.load filename
     id = File.basename filename, ".yml"
-    Protopack::PackageItem.new(YAML.load(File.read filename).merge(id: id, protopack_filename: filename))
+    Protopack::PackageItem.new(Protopack.yaml_read(File.read filename).merge(id: id, protopack_filename: filename))
   rescue
     raise "error reading from file #{filename}"
   end

@@ -21,7 +21,7 @@ require 'stringio'
 module Protopack::StyledYAML
   # Tag strings to be output using literal style
   def self.literal obj
-    obj.extend LiteralScalar
+    # obj.extend LiteralScalar
     return obj
   end
 

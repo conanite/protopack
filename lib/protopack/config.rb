@@ -4,7 +4,7 @@ class Protopack::Config < Aduki::Initializable
 
   def load_package base
     return unless File.exist? "#{base}/package-config.yml"
-    cfg = YAML.load(File.read("#{base}/package-config.yml"))
+    cfg = Protopack.yaml_read File.read("#{base}/package-config.yml")
     content_dir = File.join base, "content"
     if File.exist?(content_dir)
       cfg["item_files"] = Dir.glob("#{content_dir}/*.yml")
