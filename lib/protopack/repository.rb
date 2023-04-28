@@ -19,7 +19,7 @@ class Protopack::Repository < Aduki::Initializable
 
   def status path, logger
     local  = File.join(path, name)
-    exists = File.exists? local
+    exists = File.exist? local
 
     if exists
       logger.info "repo exists : #{local}"
