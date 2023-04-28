@@ -5,7 +5,7 @@ class Protopack::Repository < Aduki::Initializable
 
   def update path, logger
     local  = File.join(path, name)
-    exists = File.exists? local
+    exists = File.exist? local
 
     cmd = if exists
       "cd #{local} ; git pull ; git checkout master"
